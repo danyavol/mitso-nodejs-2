@@ -1,4 +1,5 @@
 const express = require('express');
+const departmentRouter = require('./resources/departments/department.router');
 
 const app = express();
 
@@ -11,5 +12,7 @@ app.use('/', (req, res, next) => {
     }
     next();
 });
+
+app.use('/departments', departmentRouter);
 
 module.exports = app;

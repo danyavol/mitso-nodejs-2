@@ -10,6 +10,11 @@ class Employee {
         this.department = employee.department;
         this.project = employee.project;
     }
+
+    static toResponse(employee) {
+        const { id, firstName, lastName, skillLevel, salary, department, project } = employee;
+        return { id, firstName, lastName, skillLevel, salary, department, project };
+    }
 }
 
 module.exports = Employee;

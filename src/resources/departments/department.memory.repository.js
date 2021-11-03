@@ -1,5 +1,4 @@
-const getAll = async () =>
-[
+const departments = [
     {
         id: '226b0228-2ba6-4ec4-80bf-f07f88920a7d',
         name: 'Frontend'
@@ -17,4 +16,31 @@ const getAll = async () =>
         name: 'Business Analysis'
     },
 ];
-module.exports = { getAll };
+
+
+async function getAll() {
+    return departments;
+};
+
+async function getById(id) {
+    return departments.find(d => d.id === id);
+};
+
+async function insert(department) {
+    return departments.push(department);
+};
+
+async function deleteById(id) {
+    const index = departments.findIndex(d => d.id === id);
+    if (index === -1) return null;
+    return departments.splice(index, 1);
+};
+
+async function replaceById(id, department) {
+    const index = departments.findIndex(d => d.id === id);
+    if (index === -1) return null;
+    departments[index] = department;
+    return department;
+}
+
+module.exports = { getAll, getById, insert, deleteById, replaceById };
