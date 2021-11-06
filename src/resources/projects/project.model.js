@@ -7,6 +7,11 @@ class Project {
         this.description = project.description;
         this.client = project.client;
     }
+
+    static toResponse(project) {
+        const { id, name, description, client } = project;
+        return { id, name, description, client };
+    }
 }
 
 module.exports = Project;

@@ -1,10 +1,10 @@
 const router = require('express').Router();
-const departmentService = require('./department.service');
+const projectService = require('./project.service');
 
 router.get('/', async (req, res) => {
     try {
-        const departments = await departmentService.getAll();
-        res.json(departments);
+        const projects = await projectService.getAll();
+        res.json(projects);
     } catch {
         res.sendStatus(500);
     }
@@ -12,8 +12,8 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     try {
-        const department = await departmentService.getById(req.params.id);
-        res.json(department);
+        const project = await projectService.getById(req.params.id);
+        res.json(project);
     } catch {
         res.sendStatus(500);
     }
@@ -21,16 +21,17 @@ router.get('/:id', async (req, res) => {
 
 router.get('/:id/employees', async (req, res) => {
     try {
-        const department = await departmentService.getDepartmentEmployees(req.params.id);
-        res.json(department);
+        const project = await projectService.getProjectEmployees(req.params.id);
+        res.json(project);
     } catch {
         res.sendStatus(500);
     }
 });
 
+
 router.post('/', async (req, res) => {
     try {
-        await departmentService.create(req.body);
+        await projectService.create(req.body);
         res.sendStatus(204);
     } catch {
         res.sendStatus(500);
@@ -39,7 +40,7 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     try {
-        await departmentService.update(req.params.id, req.body);
+        await projectService.update(req.params.id, req.body);
         res.sendStatus(204);
     } catch {
         res.sendStatus(500);
@@ -48,7 +49,7 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     try {
-        await departmentService.deleteDepartment(req.params.id);
+        await projectService.deleteProject(req.params.id);
         res.sendStatus(204);
     } catch {
         res.sendStatus(500);

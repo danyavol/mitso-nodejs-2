@@ -1,5 +1,4 @@
-const getAll = async () =>
-[
+const projects = [
     {
         id: 'ddf32c7a-e535-4b8f-bb99-66fb3954cc30',
         name: 'Felix',
@@ -19,4 +18,30 @@ const getAll = async () =>
         client: 'Meta'
     }
 ];
-module.exports = { getAll };
+
+async function getAll() {
+    return projects;
+};
+
+async function getById(id) {
+    return projects.find(d => d.id === id);
+};
+
+async function insert(employee) {
+    return projects.push(employee);
+};
+
+async function deleteById(id) {
+    const index = projects.findIndex(d => d.id === id);
+    if (index === -1) return null;
+    return projects.splice(index, 1);
+};
+
+async function replaceById(id, employee) {
+    const index = projects.findIndex(d => d.id === id);
+    if (index === -1) return null;
+    projects[index] = employee;
+    return employee;
+}
+
+module.exports = { getAll, getById, insert, deleteById, replaceById };

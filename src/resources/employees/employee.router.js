@@ -1,10 +1,10 @@
 const router = require('express').Router();
-const departmentService = require('./department.service');
+const employeeService = require('./employee.service');
 
 router.get('/', async (req, res) => {
     try {
-        const departments = await departmentService.getAll();
-        res.json(departments);
+        const employees = await employeeService.getAll();
+        res.json(employees);
     } catch {
         res.sendStatus(500);
     }
@@ -12,17 +12,26 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     try {
-        const department = await departmentService.getById(req.params.id);
+        const employee = await employeeService.getById(req.params.id);
+        res.json(employee);
+    } catch {
+        res.sendStatus(500);
+    }
+});
+
+router.get('/:id/department', async (req, res) => {
+    try {
+        const department = await employeeService.getEmployeeDepartment(req.params.id);
         res.json(department);
     } catch {
         res.sendStatus(500);
     }
 });
 
-router.get('/:id/employees', async (req, res) => {
+router.get('/:id/project', async (req, res) => {
     try {
-        const department = await departmentService.getDepartmentEmployees(req.params.id);
-        res.json(department);
+        const project = await employeeService.getEmployeeProject(req.params.id);
+        res.json(project);
     } catch {
         res.sendStatus(500);
     }
@@ -30,7 +39,7 @@ router.get('/:id/employees', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try {
-        await departmentService.create(req.body);
+        await employeeService.create(req.body);
         res.sendStatus(204);
     } catch {
         res.sendStatus(500);
@@ -39,7 +48,7 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     try {
-        await departmentService.update(req.params.id, req.body);
+        await employeeService.update(req.params.id, req.body);
         res.sendStatus(204);
     } catch {
         res.sendStatus(500);
@@ -48,7 +57,7 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     try {
-        await departmentService.deleteDepartment(req.params.id);
+        await employeeService.deleteEmployee(req.params.id);
         res.sendStatus(204);
     } catch {
         res.sendStatus(500);

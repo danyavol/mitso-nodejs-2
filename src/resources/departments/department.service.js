@@ -13,7 +13,7 @@ async function getById(id) {
     return Department.toResponse(department);
 }
 
-async function getAllDepartmentEmployees(id) {
+async function getDepartmentEmployees(id) {
     const employees = await employeeRepo.getAll();
     return employees.filter(e => e.department === id).map(e => Employee.toResponse(e));
 }
@@ -32,4 +32,4 @@ async function deleteDepartment(id) {
     await departmentRepo.deleteById(id);
 }
 
-module.exports = { getAll, getById, create, update, deleteDepartment, getAllDepartmentEmployees };
+module.exports = { getAll, getById, create, update, deleteDepartment, getDepartmentEmployees };
