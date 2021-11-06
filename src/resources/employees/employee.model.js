@@ -12,6 +12,7 @@ class Employee {
     }
 
     static toResponse(employee) {
+        if (employee == null) return null;
         const { id, firstName, lastName, skillLevel, salary, department, project } = employee;
         return { id, firstName, lastName, skillLevel, salary, department, project };
     }

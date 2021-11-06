@@ -7,6 +7,7 @@ class Department {
     }
 
     static toResponse(department) {
+        if (department == null) return null;
         const { id, name } = department;
         return { id, name };
     }

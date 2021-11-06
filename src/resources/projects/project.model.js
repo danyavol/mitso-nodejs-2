@@ -9,6 +9,7 @@ class Project {
     }
 
     static toResponse(project) {
+        if (project == null) return null;
         const { id, name, description, client } = project;
         return { id, name, description, client };
     }

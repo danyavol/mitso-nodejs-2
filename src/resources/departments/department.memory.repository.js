@@ -23,7 +23,7 @@ async function getAll() {
 };
 
 async function getById(id) {
-    return departments.find(d => d.id === id);
+    return departments.find(d => d.id === id) || null;
 };
 
 async function insert(department) {
@@ -33,7 +33,7 @@ async function insert(department) {
 async function deleteById(id) {
     const index = departments.findIndex(d => d.id === id);
     if (index === -1) return null;
-    return departments.splice(index, 1);
+    return departments.splice(index, 1)[0];
 };
 
 async function replaceById(id, department) {

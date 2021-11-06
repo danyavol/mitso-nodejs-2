@@ -97,7 +97,7 @@ async function getAll() {
 };
 
 async function getById(id) {
-    return employees.find(d => d.id === id);
+    return employees.find(d => d.id === id) || null;
 };
 
 async function insert(employee) {
@@ -107,7 +107,7 @@ async function insert(employee) {
 async function deleteById(id) {
     const index = employees.findIndex(d => d.id === id);
     if (index === -1) return null;
-    return employees.splice(index, 1);
+    return employees.splice(index, 1)[0];
 };
 
 async function replaceById(id, employee) {
