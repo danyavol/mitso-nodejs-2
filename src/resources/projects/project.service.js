@@ -26,7 +26,8 @@ async function create(projectData) {
 
 async function update(id, projectData) {
     const oldProject = await projectRepo.getById(id);
-    await projectRepo.replaceById(id, { ...oldProject, ...projectData });
+    const newProject = new Project(oldProject).update(projectData);
+    await projectRepo.replaceById(id, newProject);
 }
 
 async function deleteProject(id) {

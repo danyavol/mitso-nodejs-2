@@ -26,7 +26,8 @@ async function create(departmentData) {
 
 async function update(id, departmentData) {
     const oldDepartment = await departmentRepo.getById(id);
-    await departmentRepo.replaceById(id, { ...oldDepartment, ...departmentData });
+    const newDepartment = new Department(oldDepartment).update(departmentData);
+    await departmentRepo.replaceById(id, newDepartment);
 }
 
 async function deleteDepartment(id) {

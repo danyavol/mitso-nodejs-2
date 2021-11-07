@@ -11,6 +11,13 @@ class Department {
         const { id, name } = department;
         return { id, name };
     }
+
+    update(payload) {
+        const { name } = payload;
+        if (name !== undefined) this.name = name;
+
+        return this;
+    }
 }
 
 module.exports = Department;

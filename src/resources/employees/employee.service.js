@@ -4,6 +4,7 @@ const departmentRepo = require('../departments/department.memory.repository');
 const Employee = require('./employee.model');
 const Project = require('../projects/project.model');
 const Department = require('../departments/department.model');
+const { RequestError } = require('../../services/errors');
 
 async function getAll() {
     const employees = await employeeRepo.getAll();
@@ -34,11 +35,13 @@ async function create(employeeData) {
 
 async function update(id, employeeData) {
     const oldEmployee = await employeeRepo.getById(id);
-    await employeeRepo.replaceById(id, { ...oldEmployee, ...employeeData });
+    const newEmployee = new Employee(oldEmployee).update(employeeData);
+    await employeeRepo.replaceById(id, newEmployee);
 }
 
 async function deleteEmployee(id) {
-    await employeeRepo.deleteById(id);
+    const deletedEmployee = await employeeRepo.deleteById(id);
+    if (!deletedEmployee) throw new RequestError(400, 'Invalid employee id');
 }
 
 module.exports = { getAll, getById, create, update, deleteEmployee, getEmployeeDepartment, getEmployeeProject };

@@ -13,6 +13,15 @@ class Project {
         const { id, name, description, client } = project;
         return { id, name, description, client };
     }
+
+    update(payload) {
+        const { name, description, client } = payload;
+        if (name !== undefined) this.name = name;
+        if (description !== undefined) this.description = description;
+        if (client !== undefined) this.client = client;
+
+        return this;
+    }
 }
 
 module.exports = Project;
