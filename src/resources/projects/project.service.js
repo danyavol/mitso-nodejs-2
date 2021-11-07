@@ -2,6 +2,7 @@ const projectRepo = require('./project.memory.repository');
 const employeeRepo = require('../employees/employee.memory.repository');
 const Project = require('./project.model');
 const Employee = require('../employees/employee.model');
+const { RequestError } = require('../../services/errors');
 
 async function getAll() {
     const departments = await projectRepo.getAll();
@@ -29,7 +30,14 @@ async function update(id, projectData) {
 }
 
 async function deleteProject(id) {
-    await projectRepo.deleteById(id);
+    const deletedProject = await projectRepo.deleteById(id);
+    if (!deletedProject) throw new RequestError(400, 'Invalid project id');
+    const employees = await employeeRepo.getAll();
+    const employeesWithoutProject = employees
+        .filter(e => e.project === deletedProject.id)
+        .map(e => ({ ...e, project: null }));
+    const promises = employeesWithoutProject.map(e => employeeRepo.replaceById(e.id, e));
+    await Promise.all(promises);
 }
 
 module.exports = { getAll, getById, create, update, deleteProject, getProjectEmployees };

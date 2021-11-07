@@ -2,7 +2,7 @@ const departmentRepo = require('./department.memory.repository');
 const employeeRepo = require('../employees/employee.memory.repository');
 const Department = require('./department.model');
 const Employee = require('../employees/employee.model');
-const { BadRequestError } = require('../../services/errors');
+const { RequestError } = require('../../services/errors');
 
 async function getAll() {
     const departments = await departmentRepo.getAll();
@@ -31,7 +31,7 @@ async function update(id, departmentData) {
 
 async function deleteDepartment(id) {
     const deletedDepartment = await departmentRepo.deleteById(id);
-    if (!deletedDepartment) throw new BadRequestError('Invalid department id');
+    if (!deletedDepartment) throw new RequestError(400, 'Invalid department id');
     const employees = await employeeRepo.getAll();
     const employeesWithoutDepartment = employees
         .filter(e => e.department === deletedDepartment.id)
