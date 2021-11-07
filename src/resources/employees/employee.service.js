@@ -35,6 +35,7 @@ async function create(employeeData) {
 
 async function update(id, employeeData) {
     const oldEmployee = await employeeRepo.getById(id);
+    if (oldEmployee == null) throw new RequestError(400, 'Invalid employee id');
     const newEmployee = new Employee(oldEmployee).update(employeeData);
     await employeeRepo.replaceById(id, newEmployee);
 }

@@ -26,6 +26,7 @@ async function create(departmentData) {
 
 async function update(id, departmentData) {
     const oldDepartment = await departmentRepo.getById(id);
+    if (oldDepartment == null) throw new RequestError(400, 'Invalid department id');
     const newDepartment = new Department(oldDepartment).update(departmentData);
     await departmentRepo.replaceById(id, newDepartment);
 }

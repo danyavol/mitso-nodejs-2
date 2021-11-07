@@ -26,6 +26,7 @@ async function create(projectData) {
 
 async function update(id, projectData) {
     const oldProject = await projectRepo.getById(id);
+    if (oldProject == null) throw new RequestError(400, 'Invalid project id');
     const newProject = new Project(oldProject).update(projectData);
     await projectRepo.replaceById(id, newProject);
 }
