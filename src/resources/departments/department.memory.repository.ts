@@ -1,4 +1,6 @@
-const departments = [
+import { IDepartment } from "./department.model";
+
+const departments: IDepartment[] = [
     {
         id: '226b0228-2ba6-4ec4-80bf-f07f88920a7d',
         name: 'Frontend'
@@ -18,29 +20,29 @@ const departments = [
 ];
 
 
-async function getAll() {
+async function getAll(): Promise<IDepartment[]> {
     return departments;
 };
 
-async function getById(id) {
-    return departments.find(d => d.id === id) || null;
+async function getById(id: string): Promise<IDepartment | null> {
+    return departments.find((d: IDepartment) => d.id === id) || null;
 };
 
-async function insert(department) {
-    return departments.push(department);
+async function insert(department: IDepartment): Promise<void> {
+    departments.push(department);
 };
 
-async function deleteById(id) {
+async function deleteById(id: string): Promise<IDepartment | null> {
     const index = departments.findIndex(d => d.id === id);
     if (index === -1) return null;
-    return departments.splice(index, 1)[0];
+    return departments.splice(index, 1)[0] || null;
 };
 
-async function replaceById(id, department) {
+async function replaceById(id: string, department: IDepartment): Promise<IDepartment | null> {
     const index = departments.findIndex(d => d.id === id);
     if (index === -1) return null;
     departments[index] = department;
     return department;
 }
 
-module.exports = { getAll, getById, insert, deleteById, replaceById };
+export default { getAll, getById, insert, deleteById, replaceById };
