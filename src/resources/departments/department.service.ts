@@ -1,7 +1,7 @@
 import departmentRepo from './department.memory.repository';
 import employeeRepo from '../employees/employee.memory.repository';
 import { Department, IDepartmentToResponse, IDepartment } from './department.model';
-import Employee from '../employees/employee.model';
+import { IEmployee, Employee } from '../employees/employee.model';
 import { RequestError } from '../../services/errors';
 
 async function getAll(): Promise<IDepartmentToResponse[]> {
@@ -16,7 +16,7 @@ async function getById(id: string): Promise<IDepartmentToResponse | null> {
 
 async function getDepartmentEmployees(id: string): Promise<any> {
     const employees = await employeeRepo.getAll();
-    return employees.filter((e: Employee) => e.department === id).map((e: Employee) => Employee.toResponse(e));
+    return employees.filter((e: IEmployee) => e.department === id).map((e: IEmployee) => Employee.toResponse(e));
 }
 
 async function create(departmentData: IDepartment): Promise<void> {
@@ -36,9 +36,9 @@ async function deleteDepartment(id: string): Promise<void> {
     if (!deletedDepartment) throw new RequestError(400, 'Invalid department id');
     const employees = await employeeRepo.getAll();
     const employeesWithoutDepartment = employees
-        .filter((e: Employee) => e.department === deletedDepartment.id)
-        .map((e: Employee) => ({ ...e, department: null }));
-    const promises = employeesWithoutDepartment.map((e: Employee) => employeeRepo.replaceById(e.id, e));
+        .filter((e: IEmployee) => e.department === deletedDepartment.id);
+    employeesWithoutDepartment.forEach((e: IEmployee) => e.department = null);
+    const promises = employeesWithoutDepartment.map((e: IEmployee) => employeeRepo.replaceById(e.id, e));
     await Promise.all(promises);
 }
 

@@ -1,4 +1,6 @@
-const employees = [
+import { IEmployee } from "./employee.model";
+
+const employees: IEmployee[] = [
     {
         id: "e2404bd0-2dd8-4501-8133-35033ce3b7e0",
         firstName: "Decker",
@@ -92,29 +94,29 @@ const employees = [
 ];
 
 
-async function getAll() {
+async function getAll(): Promise<IEmployee[]> {
     return employees;
 };
 
-async function getById(id) {
+async function getById(id: string): Promise<IEmployee | null> {
     return employees.find(d => d.id === id) || null;
 };
 
-async function insert(employee) {
-    return employees.push(employee);
+async function insert(employee: IEmployee): Promise<void> {
+    employees.push(employee);
 };
 
-async function deleteById(id) {
+async function deleteById(id: string): Promise<IEmployee | null> {
     const index = employees.findIndex(d => d.id === id);
     if (index === -1) return null;
-    return employees.splice(index, 1)[0];
+    return employees.splice(index, 1)[0] || null;
 };
 
-async function replaceById(id, employee) {
+async function replaceById(id: string, employee: IEmployee): Promise<IEmployee | null> {
     const index = employees.findIndex(d => d.id === id);
     if (index === -1) return null;
     employees[index] = employee;
     return employee;
 }
 
-module.exports = { getAll, getById, insert, deleteById, replaceById };
+export default { getAll, getById, insert, deleteById, replaceById };

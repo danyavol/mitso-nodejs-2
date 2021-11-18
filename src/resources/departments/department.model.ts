@@ -24,7 +24,7 @@ export class Department implements IDepartment {
         return { id, name };
     }
 
-    update(payload: IDepartment): Department {
+    public update(payload: IDepartment): Department {
         const { name } = payload;
         if (name !== undefined) this.name = name;
 
