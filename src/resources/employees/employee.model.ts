@@ -21,7 +21,6 @@ export interface IEmployee {
 }
 
 export class Employee implements IEmployee {
-
     public id: string;
     public firstName: string;
     public lastName: string;

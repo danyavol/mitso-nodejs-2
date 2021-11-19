@@ -2,7 +2,7 @@ import { RequestError } from '../../services/errors';
 import departmentRepo from '../departments/department.memory.repository';
 import { Department, IDepartmentToResponse } from '../departments/department.model';
 import projectRepo from '../projects/project.memory.repository';
-import Project from '../projects/project.model';
+import { IProjectForResponse, Project } from '../projects/project.model';
 import employeeRepo from './employee.memory.repository';
 import { Employee, IEmployee, IEmployeeToResponse } from './employee.model';
 
@@ -22,10 +22,10 @@ async function getEmployeeDepartment(id: string): Promise<IDepartmentToResponse 
     return department ? Department.toResponse(department) : null;
 }
 
-async function getEmployeeProject(id: string): Promise<any> {
+async function getEmployeeProject(id: string): Promise<IProjectForResponse | null> {
     const employee = await employeeRepo.getById(id);
-    const project = await projectRepo.getById(employee?.project);
-    return Project.toResponse(project);
+    const project = await projectRepo.getById(employee?.project || '');
+    return project ? Project.toResponse(project): null;
 }
 
 async function create(employeeData: IEmployee): Promise<void> {

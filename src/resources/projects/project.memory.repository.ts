@@ -1,4 +1,6 @@
-const projects = [
+import { IProject } from "./project.model";
+
+const projects: IProject[] = [
     {
         id: 'ddf32c7a-e535-4b8f-bb99-66fb3954cc30',
         name: 'Felix',
@@ -19,29 +21,29 @@ const projects = [
     }
 ];
 
-async function getAll() {
+async function getAll(): Promise<IProject[]> {
     return projects;
 };
 
-async function getById(id) {
+async function getById(id: string): Promise<IProject | null> {
     return projects.find(d => d.id === id) || null;
 };
 
-async function insert(employee) {
-    return projects.push(employee);
+async function insert(project: IProject): Promise<void> {
+    projects.push(project);
 };
 
-async function deleteById(id) {
+async function deleteById(id: string): Promise<IProject | null>  {
     const index = projects.findIndex(d => d.id === id);
     if (index === -1) return null;
-    return projects.splice(index, 1)[0];
+    return projects.splice(index, 1)[0] || null;
 };
 
-async function replaceById(id, employee) {
+async function replaceById(id: string, project: IProject): Promise<IProject | null> {
     const index = projects.findIndex(d => d.id === id);
     if (index === -1) return null;
-    projects[index] = employee;
-    return employee;
+    projects[index] = project;
+    return project;
 }
 
-module.exports = { getAll, getById, insert, deleteById, replaceById };
+export default { getAll, getById, insert, deleteById, replaceById };
