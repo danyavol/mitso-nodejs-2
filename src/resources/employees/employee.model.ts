@@ -1,7 +1,41 @@
-const { v4: uuid } = require('uuid');
+import { v4 as uuid } from 'uuid';
 
-class Employee {
-    constructor(employee = {}) {
+export interface IEmployeeToResponse {
+    id: string,
+    firstName: string,
+    lastName: string,
+    skillLevel: string,
+    salary: number,
+    department: string | null,
+    project: string | null
+}
+
+export interface IEmployee {
+    id: string,
+    firstName: string,
+    lastName: string,
+    skillLevel: string,
+    salary: number,
+    department: string | null,
+    project: string | null
+}
+
+export class Employee implements IEmployee {
+    public id: string;
+
+    public firstName: string;
+
+    public lastName: string;
+
+    public skillLevel: string;
+
+    public salary: number;
+
+    public department: string | null;
+
+    public project: string | null;
+
+    constructor(employee: IEmployee) {
         this.id = employee.id || uuid();
         this.firstName = employee.firstName;
         this.lastName = employee.lastName;
@@ -11,13 +45,12 @@ class Employee {
         this.project = employee.project;
     }
 
-    static toResponse(employee) {
-        if (employee == null) return null;
+    static toResponse(employee: IEmployee): IEmployeeToResponse {
         const { id, firstName, lastName, skillLevel, salary, department, project } = employee;
         return { id, firstName, lastName, skillLevel, salary, department, project };
     }
 
-    update(payload) {
+    public update(payload: IEmployee): Employee {
         const { firstName, lastName, skillLevel, salary, department, project } = payload;
         if (firstName !== undefined) this.firstName = firstName;
         if (lastName !== undefined) this.lastName = lastName;
@@ -29,5 +62,3 @@ class Employee {
         return this;
     }
 }
-
-module.exports = Employee;

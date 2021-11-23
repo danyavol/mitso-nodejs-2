@@ -1,11 +1,10 @@
-const { RequestError } = require('./errors');
+import { Response } from "express";
+import { RequestError } from "./errors";
 
-function handleError(res, error) {
+export function handleError(res: Response, error: unknown): void {
     if (error instanceof RequestError) {
         res.status(error.status).json({ message: error.message });
     } else {
         res.status(500).json({ message: 'Unhandled error on server' });
     }
 }
-
-module.exports = { handleError };
