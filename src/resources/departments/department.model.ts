@@ -12,6 +12,7 @@ export interface IDepartment {
 
 export class Department implements IDepartment {
     public id: string;
+
     public name: string | null;
 
     constructor(department?: IDepartment) {

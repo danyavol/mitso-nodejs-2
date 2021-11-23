@@ -22,11 +22,17 @@ export interface IEmployee {
 
 export class Employee implements IEmployee {
     public id: string;
+
     public firstName: string;
+
     public lastName: string;
+
     public skillLevel: string;
+
     public salary: number;
+
     public department: string | null;
+
     public project: string | null;
 
     constructor(employee: IEmployee) {

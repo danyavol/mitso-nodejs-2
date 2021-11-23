@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { RequestError } from "./errors";
 
-export function handleError(res: Response, error: unknown) {
+export function handleError(res: Response, error: unknown): void {
     if (error instanceof RequestError) {
         res.status(error.status).json({ message: error.message });
     } else {

@@ -1,7 +1,7 @@
 import departmentRepo from './department.memory.repository';
 import employeeRepo from '../employees/employee.memory.repository';
 import { Department, IDepartmentToResponse, IDepartment } from './department.model';
-import { IEmployee, Employee } from '../employees/employee.model';
+import { IEmployee, Employee, IEmployeeToResponse } from '../employees/employee.model';
 import { RequestError } from '../../services/errors';
 
 async function getAll(): Promise<IDepartmentToResponse[]> {
@@ -14,7 +14,7 @@ async function getById(id: string): Promise<IDepartmentToResponse | null> {
     return department ? Department.toResponse(department) : null;
 }
 
-async function getDepartmentEmployees(id: string): Promise<any> {
+async function getDepartmentEmployees(id: string): Promise<IEmployeeToResponse[]> {
     const employees = await employeeRepo.getAll();
     return employees.filter((e: IEmployee) => e.department === id).map((e: IEmployee) => Employee.toResponse(e));
 }
@@ -37,7 +37,7 @@ async function deleteDepartment(id: string): Promise<void> {
     const employees = await employeeRepo.getAll();
     const employeesWithoutDepartment = employees
         .filter((e: IEmployee) => e.department === deletedDepartment.id);
-    employeesWithoutDepartment.forEach((e: IEmployee) => e.department = null);
+    employeesWithoutDepartment.forEach((e: IEmployee) => {e.department = null});
     const promises = employeesWithoutDepartment.map((e: IEmployee) => employeeRepo.replaceById(e.id, e));
     await Promise.all(promises);
 }

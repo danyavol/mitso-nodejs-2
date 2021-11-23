@@ -1,7 +1,7 @@
-import { Request, Response, Router } from "express";
+import express, { Request, Response, Router } from "express";
 import { handleError } from '../../services/handle-error.service';
 import departmentService from './department.service';
-import express from 'express';
+
 
 const router: Router = express.Router();
 

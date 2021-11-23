@@ -16,8 +16,11 @@ export interface IProject {
 
 export class Project {
     public id: string;
+
     public name: string;
+
     public description: string | null;
+
     public client: string;
 
     constructor(project: IProject) {
