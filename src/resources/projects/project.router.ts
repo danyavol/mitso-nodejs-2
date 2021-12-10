@@ -4,12 +4,13 @@ import projectService from './project.service';
 
 const router: Router = express.Router();
 
-router.get('/', async (_req: Request, res: Response) => {
+router.get('/', async (req: Request, res: Response) => {
     try {
         const projects = await projectService.getAll();
+        throw new Error('123123123123')
         res.json(projects);
     } catch(err) {
-        handleError(res, err);
+        handleError(err, req, res);
     }
 });
 
@@ -18,7 +19,7 @@ router.get('/:id', async (req: Request, res: Response) => {
         const project = await projectService.getById(req.params['id'] || '');
         res.json(project);
     } catch(err) {
-        handleError(res, err);
+        handleError(err, req, res);
     }
 });
 
@@ -27,7 +28,7 @@ router.get('/:id/employees', async (req: Request, res: Response) => {
         const project = await projectService.getProjectEmployees(req.params['id'] || '');
         res.json(project);
     } catch(err) {
-        handleError(res, err);
+        handleError(err, req, res);
     }
 });
 
@@ -37,7 +38,7 @@ router.post('/', async (req: Request, res: Response) => {
         await projectService.create(req.body);
         res.sendStatus(204);
     } catch(err) {
-        handleError(res, err);
+        handleError(err, req, res);
     }
 });
 
@@ -46,7 +47,7 @@ router.put('/:id', async (req: Request, res: Response) => {
         await projectService.update(req.params['id'] || '', req.body);
         res.sendStatus(204);
     } catch(err) {
-        handleError(res, err);
+        handleError(err, req, res);
     }
 });
 
@@ -55,7 +56,7 @@ router.delete('/:id', async (req: Request, res: Response) => {
         await projectService.deleteProject(req.params['id'] || '');
         res.sendStatus(204);
     } catch(err) {
-        handleError(res, err);
+        handleError(err, req, res);
     }
 });
 
