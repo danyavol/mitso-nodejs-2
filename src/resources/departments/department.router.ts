@@ -5,12 +5,12 @@ import departmentService from './department.service';
 
 const router: Router = express.Router();
 
-router.get('/', async (_req: Request, res: Response) => {
+router.get('/', async (req: Request, res: Response) => {
     try {
         const departments = await departmentService.getAll();
         res.json(departments);
     } catch(err) {
-        handleError(res, err);
+        handleError(err, req, res);
     }
 });
 
@@ -19,7 +19,7 @@ router.get('/:id', async (req: Request, res: Response) => {
         const department = await departmentService.getById(req.params["id"] || '');
         res.json(department);
     } catch(err) {
-        handleError(res, err);
+        handleError(err, req, res);
     }
 });
 
@@ -28,7 +28,7 @@ router.get('/:id/employees', async (req: Request, res: Response) => {
         const department = await departmentService.getDepartmentEmployees(req.params["id"] || '');
         res.json(department);
     } catch(err) {
-        handleError(res, err);
+        handleError(err, req, res);
     }
 });
 
@@ -37,7 +37,7 @@ router.post('/', async (req: Request, res: Response) => {
         await departmentService.create(req.body);
         res.sendStatus(204);
     } catch(err) {
-        handleError(res, err);
+        handleError(err, req, res);
     }
 });
 
@@ -46,7 +46,7 @@ router.put('/:id', async (req: Request, res: Response) => {
         await departmentService.update(req.params["id"] || '', req.body);
         res.sendStatus(204);
     } catch(err) {
-        handleError(res, err);
+        handleError(err, req, res);
     }
 });
 
@@ -55,7 +55,7 @@ router.delete('/:id', async (req: Request, res: Response) => {
         await departmentService.deleteDepartment(req.params["id"] || '');
         res.sendStatus(204);
     } catch(err) {
-        handleError(res, err);
+        handleError(err, req, res);
     }
 });
 
