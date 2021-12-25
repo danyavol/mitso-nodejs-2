@@ -1,6 +1,14 @@
-import { PORT } from './common/config';
+import { createConnection } from 'typeorm';
 import app from './app';
+import { databaseConfig, PORT } from './common/config';
 
-app.listen(PORT, (): void =>
+(async () => {
+    console.log('Connecting to database...');
+    await createConnection(databaseConfig);
+
+    app.listen(PORT, (): void =>
     console.log(`App is running on http://localhost:${PORT}`)
 );
+})()
+
+

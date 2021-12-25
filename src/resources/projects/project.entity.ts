@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid';
+import { Entity, PrimaryColumn, Column } from 'typeorm';
 
 export interface IProjectForResponse {
     id: string,
@@ -14,13 +15,18 @@ export interface IProject {
     client: string
 }
 
-export class Project {
+@Entity({ name: 'projects' })
+export default class Project {
+    @PrimaryColumn('uuid')
     public id: string;
 
+    @Column()
     public name: string;
 
+    @Column()
     public description: string | null;
 
+    @Column()
     public client: string;
 
     constructor(project: IProject) {

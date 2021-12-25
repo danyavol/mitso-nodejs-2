@@ -2,7 +2,7 @@ import { RequestError } from '../../services/errors';
 import departmentRepo from '../departments/department.memory.repository';
 import { Department, IDepartmentToResponse } from '../departments/department.model';
 import projectRepo from '../projects/project.memory.repository';
-import { IProjectForResponse, Project } from '../projects/project.model';
+import Project, { IProjectForResponse } from '../projects/project.entity';
 import employeeRepo from './employee.memory.repository';
 import { Employee, IEmployee, IEmployeeToResponse } from './employee.model';
 

@@ -1,4 +1,4 @@
-import { IProject } from "./project.model";
+import { IProject } from "./project.entity";
 
 const projects: IProject[] = [
     {
