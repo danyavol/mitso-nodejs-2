@@ -8,6 +8,7 @@ dotenv.config({
 
 export const PORT = Number(process.env['PORT']) || 4000;
 export const POSTGRES_PORT = Number(process.env['POSTGRES_PORT']) || 5432;
+export const JWY_SECRET_KEY = process.env['JWY_SECRET_KEY'] as string;
 
 export const {
     POSTGRES_HOST,
