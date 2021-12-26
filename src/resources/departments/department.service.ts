@@ -1,44 +1,61 @@
-import departmentRepo from './department.memory.repository';
-import employeeRepo from '../employees/employee.memory.repository';
-import { Department, IDepartmentToResponse, IDepartment } from './department.model';
-import { IEmployee, Employee, IEmployeeToResponse } from '../employees/employee.model';
+import { getCustomRepository } from 'typeorm';
 import { RequestError } from '../../services/errors';
+import Employee, { IEmployee, IEmployeeToResponse } from '../employees/employee.entity';
+import { EmployeeRepository } from '../employees/employee.repository';
+import Department, { IDepartment, IDepartmentToResponse } from './department.entity';
+import { DepartmentRepository } from './department.repository';
 
 async function getAll(): Promise<IDepartmentToResponse[]> {
-    const departments = await departmentRepo.getAll();
+    const departmentRepository = getCustomRepository(DepartmentRepository);
+
+    const departments = await departmentRepository.getAll();
     return departments.map((d: IDepartment) => Department.toResponse(d));
 }
 
 async function getById(id: string): Promise<IDepartmentToResponse | null> {
-    const department = await departmentRepo.getById(id);
+    const departmentRepository = getCustomRepository(DepartmentRepository);
+
+    const department = await departmentRepository.getById(id);
     return department ? Department.toResponse(department) : null;
 }
 
 async function getDepartmentEmployees(id: string): Promise<IEmployeeToResponse[]> {
-    const employees = await employeeRepo.getAll();
+    const employeeRepository = getCustomRepository(EmployeeRepository);
+
+    const employees = await employeeRepository.getAll();
     return employees.filter((e: IEmployee) => e.department === id).map((e: IEmployee) => Employee.toResponse(e));
 }
 
 async function create(departmentData: IDepartment): Promise<void> {
-    const department = new Department(departmentData);
-    await departmentRepo.insert(department);
+    const departmentRepository = getCustomRepository(DepartmentRepository);
+
+    const department = new Department().update(departmentData);
+    await departmentRepository.create(department);
 }
 
 async function update(id: string, departmentData: IDepartment): Promise<void> {
-    const oldDepartment = await departmentRepo.getById(id);
+    const departmentRepository = getCustomRepository(DepartmentRepository);
+
+    const oldDepartment = await departmentRepository.getById(id);
     if (oldDepartment == null) throw new RequestError(400, 'Invalid department id');
-    const newDepartment = new Department(oldDepartment).update(departmentData);
-    await departmentRepo.replaceById(id, newDepartment);
+
+    const newDepartment = new Department().update(oldDepartment).update(departmentData);
+    await departmentRepository.updateById(id, newDepartment);
 }
 
 async function deleteDepartment(id: string): Promise<void> {
-    const deletedDepartment = await departmentRepo.deleteById(id);
-    if (!deletedDepartment) throw new RequestError(400, 'Invalid department id');
-    const employees = await employeeRepo.getAll();
+    const departmentRepository = getCustomRepository(DepartmentRepository);
+    const employeeRepository = getCustomRepository(EmployeeRepository);
+
+    const deleteResult = await departmentRepository.deleteById(id);
+    if (!deleteResult.affected) throw new RequestError(400, 'Invalid department id');
+
+    const employees = await employeeRepository.getAll();
     const employeesWithoutDepartment = employees
-        .filter((e: IEmployee) => e.department === deletedDepartment.id);
-    employeesWithoutDepartment.forEach((e: IEmployee) => {e.department = null});
-    const promises = employeesWithoutDepartment.map((e: IEmployee) => employeeRepo.replaceById(e.id, e));
+        .filter((e: IEmployee) => e.department === id);
+    employeesWithoutDepartment.forEach((e: IEmployee) => { e.department = null; });
+
+    const promises = employeesWithoutDepartment.map(e => employeeRepository.updateById(e.id, e));
     await Promise.all(promises);
 }
 

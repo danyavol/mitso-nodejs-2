@@ -1,10 +1,11 @@
-# Basic-nodejs-mitso
+# mitso-nodejs-2
+
+This is a simple RestAPI server built with Node.js, Express and PostgreSQL. It has authorization via JWT tokens, logging and error handling. 
+Also I'v used Docker to simplify deployment and development processes.
 
 ## Prerequisites
-
-- Git - [Download & Install Git](https://git-scm.com/downloads).
-- Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package
-  manager.
+- Git - [Download & Install Git](https://git-scm.com/downloads)
+- Docker Engine - [Download](https://docs.docker.com/engine/install/)
 
 ## Downloading
 
@@ -12,32 +13,17 @@
 git clone {repository URL}
 ```
 
-## Installing NPM modules
+## Running application via Docker
+Run in terminal:
 
 ```
-npm install
+ docker-compose up
 ```
-
-## Running application
-
+If you want to stop, press the keyboard shortcut first **Ctrl+C**, then enter in the terminal:
 ```
-npm start
+ docker-compose down
 ```
-
-## Development
-
-If you're using VSCode, you can get a better developer experience from integration with
-[ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) and
-[Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) extensions.
-
-### Auto-fix and format
-
+Rebuild images & start containers:
 ```
-npm run lint
+ docker compose up --build 
 ```
-
-### Debugging in VSCode
-
-Press <kbd>F5</kbd> to debug.
-
-For more information, visit: https://code.visualstudio.com/docs/editor/debugging

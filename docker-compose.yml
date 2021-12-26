@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  server:
+    container_name: server_container
+    build: .
+    ports:
+      - ${PORT}:${PORT}    
+    volumes:
+      - ./src:/app/src
+      - logs:/app/logs
+    depends_on:
+      - postgres
+    networks:
+      - my_app
+
+  postgres:
+    container_name: postgres_container
+    image: postgres:14.1-bullseye
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      - my_app
+
+networks:
+  my_app:
+    driver: bridge
+  
+volumes:
+  postgres:
+  logs:

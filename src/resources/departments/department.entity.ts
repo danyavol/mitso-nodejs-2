@@ -1,24 +1,23 @@
 import { v4 as uuid } from 'uuid';
+import { Entity, PrimaryColumn, Column } from 'typeorm';
 
 export interface IDepartmentToResponse {
     id: string,
-    name: string | null
+    name: string
 }
 
 export interface IDepartment {
     id: string,
-    name: string | null
+    name: string
 }
 
-export class Department implements IDepartment {
-    public id: string;
+@Entity({ name: "departments" })
+export default class Department {
+    @PrimaryColumn('uuid')
+    public id: string = uuid();
 
-    public name: string | null;
-
-    constructor(department?: IDepartment) {
-        this.id = department?.id || uuid();
-        this.name = department?.name || null;
-    }
+    @Column()
+    public name!: string;
 
     static toResponse(department: IDepartment): IDepartmentToResponse {
         const { id, name } = department;

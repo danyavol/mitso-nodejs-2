@@ -10,7 +10,7 @@
   "main": "src/server.ts",
   "scripts": {
     "start": "node -r ts-node/register ./src/server.ts",
-    "start:watch": "nodemon --watch src --exec npm start --ext ts",
+    "start:watch": "nodemon -L --watch src --exec npm start --ext ts",
     "lint": "eslint --ext .js,.ts --fix src/"
   },
   "keywords": [
@@ -44,6 +44,8 @@
     "cross-env": "7.0.3",
     "dotenv": "9.0.0",
     "express": "4.17.1",
+    "pg": "^8.7.1",
+    "typeorm": "^0.2.41",
     "uuid": "8.3.2",
     "winston": "^3.3.3"
   },
