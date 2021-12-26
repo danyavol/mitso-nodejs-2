@@ -15,26 +15,19 @@ export interface IProject {
     client: string
 }
 
-@Entity({ name: 'projects' })
+@Entity({ name: "projects" })
 export default class Project {
     @PrimaryColumn('uuid')
-    public id: string;
+    public id: string = uuid();
 
     @Column()
-    public name: string;
+    public name!: string;
+
+    @Column({ type: "text", nullable: true })
+    public description!: string | null;
 
     @Column()
-    public description: string | null;
-
-    @Column()
-    public client: string;
-
-    constructor(project: IProject) {
-        this.id = project.id || uuid();
-        this.name = project.name;
-        this.description = project.description;
-        this.client = project.client;
-    }
+    public client!: string;
 
     static toResponse(project: IProject): IProjectForResponse {
         const { id, name, description, client } = project;

@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid';
+import { Entity, PrimaryColumn, Column } from 'typeorm';
 
 export interface IEmployeeToResponse {
     id: string,
@@ -20,30 +21,29 @@ export interface IEmployee {
     project: string | null
 }
 
-export class Employee implements IEmployee {
-    public id: string;
+@Entity({ name: "employees" })
+export default class Employee {
+    @PrimaryColumn('uuid')
+    public id: string = uuid();
 
-    public firstName: string;
+    @Column()
+    public firstName!: string;
 
-    public lastName: string;
+    @Column()
+    public lastName!: string;
 
-    public skillLevel: string;
+    @Column()
+    public skillLevel!: string;
 
-    public salary: number;
+    @Column()
+    public salary!: number;
 
-    public department: string | null;
+    @Column({ type: "text", nullable: true })
+    public department!: string | null;
 
-    public project: string | null;
+    @Column({ type: "text", nullable: true })
+    public project!: string | null;
 
-    constructor(employee: IEmployee) {
-        this.id = employee.id || uuid();
-        this.firstName = employee.firstName;
-        this.lastName = employee.lastName;
-        this.skillLevel = employee.skillLevel;
-        this.salary = employee.salary;
-        this.department = employee.department;
-        this.project = employee.project;
-    }
 
     static toResponse(employee: IEmployee): IEmployeeToResponse {
         const { id, firstName, lastName, skillLevel, salary, department, project } = employee;

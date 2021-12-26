@@ -23,5 +23,7 @@ export const databaseConfig: ConnectionOptions = {
     username: POSTGRES_USER,
     password: POSTGRES_PASSWORD,
     database: POSTGRES_DB,
+    synchronize: true,
     entities: [path.join(__dirname, '../**/*.entity.ts')],
+    migrations: [path.join(__dirname, './migrations/*.ts')],
 };

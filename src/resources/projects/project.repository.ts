@@ -4,7 +4,7 @@ import Project from './project.entity';
 @EntityRepository(Project)
 export class ProjectRepository extends AbstractRepository<Project> {
 
-    createProject(project: Project): Promise<Project> {
+    create(project: Project): Promise<Project> {
         const projects = this.repository.create(project);
         return this.manager.save(projects);
     }
