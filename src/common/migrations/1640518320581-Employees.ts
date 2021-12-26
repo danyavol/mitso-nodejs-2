@@ -1,10 +1,9 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class CreateProjectsTable implements MigrationInterface {
-    private tableName = "projects";
+export class Employees1640518320581 implements MigrationInterface {
+    private tableName = "employees";
 
     public async up(queryRunner: QueryRunner) {
-        console.log('up');
         await queryRunner.createTable(
             new Table({
                 name: this.tableName,
@@ -18,17 +17,30 @@ export class CreateProjectsTable implements MigrationInterface {
                         generationStrategy: "uuid"
                     },
                     {
-                        name: "name",
+                        name: "firstName",
                         type: "varchar"
                     },
                     {
-                        name: "description",
+                        name: "lastName",
+                        type: "varchar"
+                    },
+                    {
+                        name: "skillLevel",
+                        type: "varchar"
+                    },
+                    {
+                        name: "salary",
+                        type: "int"
+                    },
+                    {
+                        name: "department",
                         type: "varchar",
                         isNullable: true
                     },
                     {
-                        name: "client",
-                        type: "varchar"
+                        name: "project",
+                        type: "varchar",
+                        isNullable: true
                     }
                 ]
             }),
@@ -37,7 +49,6 @@ export class CreateProjectsTable implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner) {
-        console.log('down');
         queryRunner.query(`DROP TABLE ${this.tableName}`);
     }
 }
